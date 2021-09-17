@@ -5,30 +5,29 @@ import { FaChevronCircleLeft, FaQuoteRight } from 'react-icons/fa'
 import data from './data'
 function App() {
   const [people, setPeople] = useState(data)
-  const [index, setIndex] = useState(0)
+  const [index, setIndex] = useState(1)
 
-  useEffect(() => {
-    // get last index
-    const lastIndex = people.length - 1
-    // if index negative, set equal to last index
-    if (index < 0) {
-      setIndex(lastIndex)
-    }
-    // if we run out of items
-    if (index > lastIndex) {
-      // go back to start
+  const plusClickHandler = () => {
+    console.log(index)
+    if (index === people.length - 1) {
       setIndex(0)
+    } else {
+      setIndex((prevState) => {
+        return prevState + 1
+      })
     }
-  }, [index, people])
+  }
 
-  // useEffect(() => {
-  //   let slider = setInterval(() => {
-  //     setIndex(index + 1)
-  //   }, 3000)
-  //   return () => {
-  //     clearInterval(slider)
-  //   }
-  // }, [index])
+  const minusClickHandler = () => {
+    console.log(index)
+    if (index === 0) {
+      setIndex(people.length - 1)
+    } else {
+      setIndex((prevState) => {
+        return prevState - 1
+      })
+    }
+  }
 
   return (
     <section className='section'>
@@ -41,22 +40,23 @@ function App() {
         {people.map((person, personIndex) => {
           const { id, image, name, title, quote } = person
 
-          // Move all to the right
-          let position = 'nextSlide'
+          // put all to the right
+          let position = undefined
 
-          // Move this one in the center
-          if (personIndex === index) {
+          // bring the pointed one to the center
+          if (index === personIndex) {
             position = 'activeSlide'
           }
 
-          // Move the one before this to the left
-          // If the current one is 0
-          // Move the one before to the end
-          if (
-            personIndex === index - 1 ||
-            (index === 0 && personIndex === people.length - 1)
-          ) {
+          // prev person
+          if (index - 1 === personIndex) {
             position = 'lastSlide'
+          }
+
+          // next person
+          // prev person
+          if (index + 1 === personIndex) {
+            position = 'nextSlide'
           }
 
           return (
@@ -69,10 +69,10 @@ function App() {
             </article>
           )
         })}
-        <button className='prev' onClick={() => setIndex(index - 1)}>
+        <button className='prev' onClick={minusClickHandler}>
           <FiChevronLeft />
         </button>
-        <button className='next' onClick={() => setIndex(index + 1)}>
+        <button className='next' onClick={plusClickHandler}>
           <FiChevronRight />
         </button>
       </div>
