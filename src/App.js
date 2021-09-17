@@ -1,4 +1,4 @@
-// try-1 branch
+// try-2 branch
 import React, { useState, useEffect } from 'react'
 import { FiChevronRight, FiChevronLeft, FiChevronsLeft } from 'react-icons/fi'
 import { FaChevronCircleLeft, FaQuoteRight } from 'react-icons/fa'
